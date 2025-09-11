@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
-from services.api import create_idea
+from bot.services.api import create_idea
 
 router = Router()
 
@@ -13,8 +13,11 @@ async def cmd_idea(message: Message):
         await message.answer("✍️ Напиши идею после команды /idea")
         return
 
-    idea = await create_idea(user_id=message.from_user.id, text=idea_text)
-    await message.answer(
-        f"✅ Идея сохранена!\n\n📌 {idea['title']}\n📝 {idea['description']}\n\nЗадачи:\n"
-        + "\n".join([f"{i + 1}. {t}" for i, t in enumerate(idea["tasks"])])
-    )
+    try:
+        idea = await create_idea(user_id=message.from_user.id, text=idea_text)
+        await message.answer(
+            f"✅ Идея сохранена!\n\n📌 {idea['title']}\n📝 {idea['description']}\n\nЗадачи:\n"
+            + "\n".join([f"{i + 1}. {t['title']}" for i, t in enumerate(idea["tasks"])])
+        )
+    except Exception as e:
+        await message.answer(f"❌ Ошибка сохранения идеи: {str(e)}")

@@ -13,7 +13,7 @@ def create_task(task: TaskCreate, project_id: int, db: Session = Depends(get_db)
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    new_task = models.Task(title=task.title, status=task.status, project=project)
+    new_task = models.Task(title=task.title, status=task.status, project_id=project_id)
     db.add(new_task)
     db.commit()
     db.refresh(new_task)

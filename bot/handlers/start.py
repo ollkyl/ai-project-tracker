@@ -1,24 +1,31 @@
 from aiogram import Router
 from aiogram.types import Message
-from aiogram.filters import Command
-from services.api import register_user
+from aiogram.filters import CommandStart
+import re
+from bot.services.api import register_user
 
 router = Router()
 
 
-@router.message(Command("start"))
+@router.message(CommandStart())
 async def cmd_start(message: Message):
     await message.answer(
-        "Привет! Введи своё имя и email через пробел (например: Иван ivan@mail.com)"
+        "Добро пожаловть! Введите своё имя и email через пробел (например: Иван ivan@mail.com)"
     )
 
 
-@router.message()
+@router.message(
+    lambda message: bool(
+        re.match(
+            r"^[a-zA-Zа-яА-Я]+\s+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", message.text
+        )
+    )
+)
 async def register(message: Message):
     parts = message.text.split()
-    if len(parts) == 2:
-        name, email = parts
+    name, email = parts
+    try:
         user = await register_user(name, email, message.from_user.id)
-        await message.answer(f"✅ Ты зарегистрирован!\nИмя: {name}\nEmail: {email}")
-    else:
-        await message.answer("❌ Формат неправильный. Попробуй снова: Имя email")
+        await message.answer(f" Ты зарегистрирован!\nИмя: {name}\nEmail: {email}")
+    except Exception as e:
+        await message.answer(f" Ошибка регистрации: {str(e)}")

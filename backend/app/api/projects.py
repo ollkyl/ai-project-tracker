@@ -9,11 +9,13 @@ router = APIRouter()
 
 @router.post("/", response_model=ProjectOut)
 def create_project(project: ProjectCreate, user_id: int, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
+    user = db.query(models.User).filter(models.User.telegram_id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    new_project = models.Project(title=project.title, description=project.description, owner=user)
+    new_project = models.Project(
+        title=project.title, description=project.description, user_id=user.id
+    )
     db.add(new_project)
     db.commit()
     db.refresh(new_project)
@@ -22,4 +24,7 @@ def create_project(project: ProjectCreate, user_id: int, db: Session = Depends(g
 
 @router.get("/", response_model=list[ProjectOut])
 def get_projects(user_id: int, db: Session = Depends(get_db)):
-    return db.query(models.Project).filter(models.Project.user_id == user_id).all()
+    user = db.query(models.User).filter(models.User.telegram_id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db.query(models.Project).filter(models.Project.user_id == user.id).all()

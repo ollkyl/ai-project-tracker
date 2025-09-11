@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
-from services.api import update_task
+from bot.services.api import update_task
 
 router = Router()
 
@@ -14,8 +14,8 @@ async def cmd_update(message: Message):
         return
 
     task_id, status = parts[1], parts[2]
-    updated = await update_task(task_id, status)
-    if updated:
+    try:
+        updated = await update_task(task_id, status)
         await message.answer(f"✅ Статус задачи {task_id} обновлён на {status}")
-    else:
-        await message.answer("❌ Ошибка при обновлении")
+    except Exception as e:
+        await message.answer(f"❌ Ошибка при обновлении: {str(e)}")

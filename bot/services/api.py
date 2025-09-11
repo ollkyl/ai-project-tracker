@@ -3,11 +3,11 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-BASE_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")  # from .env
+BASE_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 
 
 async def register_user(name: str, email: str, telegram_id: int):
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(follow_redirects=True) as client:
         resp = await client.post(
             f"{BASE_URL}/users", json={"name": name, "email": email, "telegram_id": telegram_id}
         )
@@ -16,16 +16,16 @@ async def register_user(name: str, email: str, telegram_id: int):
 
 
 async def get_projects(user_id: int):
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(follow_redirects=True) as client:
         resp = await client.get(f"{BASE_URL}/projects", params={"user_id": user_id})
         resp.raise_for_status()
         return resp.json()
 
 
 async def create_idea(user_id: int, text: str):
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(follow_redirects=True) as client:
         resp = await client.post(
-            f"{BASE_URL}/ideas",  # Assuming backend has /ideas endpoint for AI generation
+            f"{BASE_URL}/ideas",
             params={"user_id": user_id},
             json={"text": text},
         )
@@ -34,14 +34,14 @@ async def create_idea(user_id: int, text: str):
 
 
 async def update_task(task_id: int, status: str):
-    async with httpx.AsyncClient() as client:
-        resp = await client.put(f"{BASE_URL}/tasks/{task_id}", params={"status": status})
+    async with httpx.AsyncClient(follow_redirects=True) as client:
+        resp = await client.put(f"{BASE_URL}/tasks/{task_id}", json={"status": status})
         resp.raise_for_status()
         return resp.json()
 
 
 async def get_report(user_id: int):
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(follow_redirects=True) as client:
         resp = await client.get(f"{BASE_URL}/report", params={"user_id": user_id})
         resp.raise_for_status()
         return resp.json()
