@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Virtual environments
+env/
+venv/
+ENV/
+.venv/
+.env/
+*.env
+
+# PostgreSQL
+*.pgsql
+*.psql
+*.db
+*.sqlite3
+*.pgdata
+pgdata/
+postgres-data/
+
+# Docker
+*.pid
+*.pid.lock
+docker-compose.override.yml
+docker-compose.local.yml
+docker-compose.dev.yml
+docker-compose.prod.yml
+.docker/
+docker-data/
+*.tar
+*.gz
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp

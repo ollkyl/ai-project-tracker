@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+sqlalchemy
+
+alembic
+pydantic
+pydantic-settings
+python-telegram-bot
+httpx
+openai
+redis
+pydantic[email]
