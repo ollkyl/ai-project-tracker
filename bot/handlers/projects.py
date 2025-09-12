@@ -11,12 +11,13 @@ async def cmd_projects(message: Message):
     try:
         projects = await get_projects(message.from_user.id)
         if not projects:
-            await message.answer("У тебя пока нет проектов 🚀")
+            await message.answer("У тебя пока нет проектов")
             return
 
-        text = "📂 Твои проекты:\n\n"
-        for p in projects:
-            text += f"— {p['title']} (id: {p['id']})\n"
+        text = "Проекты:\n\n"
+        for i, project in enumerate(projects, 1):
+            text += f"{i}. {project['title']} \n"
+
         await message.answer(text)
     except Exception as e:
-        await message.answer(f"❌ Ошибка получения проектов: {str(e)}")
+        await message.answer(f"Ошибка получения проектов: {str(e)}")

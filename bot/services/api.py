@@ -24,18 +24,16 @@ async def get_projects(user_id: int):
 
 async def create_idea(user_id: int, text: str):
     async with httpx.AsyncClient(follow_redirects=True) as client:
-        resp = await client.post(
-            f"{BASE_URL}/ideas",
-            params={"user_id": user_id},
-            json={"text": text},
-        )
+        resp = await client.post(f"{BASE_URL}/ideas", params={"user_id": user_id, "text": text})
         resp.raise_for_status()
         return resp.json()
 
 
-async def update_task(task_id: int, status: str):
+async def update_task(task_id: int, status: str, progress: int = 0):
     async with httpx.AsyncClient(follow_redirects=True) as client:
-        resp = await client.put(f"{BASE_URL}/tasks/{task_id}", json={"status": status})
+        resp = await client.patch(
+            f"{BASE_URL}/tasks/{task_id}", json={"status": status, "progress": progress}
+        )
         resp.raise_for_status()
         return resp.json()
 
@@ -43,5 +41,12 @@ async def update_task(task_id: int, status: str):
 async def get_report(user_id: int):
     async with httpx.AsyncClient(follow_redirects=True) as client:
         resp = await client.get(f"{BASE_URL}/report", params={"user_id": user_id})
+        resp.raise_for_status()
+        return resp.json()
+
+
+async def get_task(task_id: int):
+    async with httpx.AsyncClient(follow_redirects=True) as client:
+        resp = await client.get(f"{BASE_URL}/tasks/{task_id}")
         resp.raise_for_status()
         return resp.json()

@@ -2,31 +2,27 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from backend.app.db import models
 from backend.app.db.session import get_db
-from backend.app.schemas.task import TaskCreate, TaskOut
+from backend.app.schemas.task import TaskUpdate, TaskOut
+import logging
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
-@router.post("/", response_model=TaskOut)
-def create_task(task: TaskCreate, project_id: int, db: Session = Depends(get_db)):
-    project = db.query(models.Project).filter(models.Project.id == project_id).first()
-    if not project:
-        raise HTTPException(status_code=404, detail="Project not found")
-
-    new_task = models.Task(title=task.title, status=task.status, project_id=project_id)
-    db.add(new_task)
-    db.commit()
-    db.refresh(new_task)
-    return new_task
-
-
-@router.put("/{task_id}", response_model=TaskOut)
-def update_task(task_id: int, status: str, db: Session = Depends(get_db)):
-    task = db.query(models.Task).filter(models.Task.id == task_id).first()
-    if not task:
+@router.patch("/{task_id}", response_model=TaskOut)
+async def update_task(task_id: int, task: TaskUpdate, db: Session = Depends(get_db)):
+    logger.info(f"Updating task: task_id={task_id}")
+    db_task = db.query(models.Task).filter(models.Task.id == task_id).first()
+    if not db_task:
+        logger.warning(f"Task not found: task_id={task_id}")
         raise HTTPException(status_code=404, detail="Task not found")
 
-    task.status = status
+    if task.status:
+        db_task.status = task.status
+    if task.progress is not None:
+        db_task.progress = task.progress
+
     db.commit()
-    db.refresh(task)
-    return task
+    db.refresh(db_task)
+    logger.info(f"Task updated: task_id={task_id}, status={task.status}, progress={task.progress}")
+    return db_task

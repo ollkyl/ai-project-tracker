@@ -9,6 +9,7 @@ from bot.handlers.projects import router as projects_router
 from bot.handlers.update import router as update_router
 from bot.handlers.report import router as report_router
 from dotenv import load_dotenv
+from bot.handlers.help import router as help_router
 
 load_dotenv()
 
@@ -17,7 +18,7 @@ TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 async def main():
     if not TOKEN:
-        raise ValueError("❌ TELEGRAM_BOT_TOKEN не найден в .env")
+        raise ValueError(" TELEGRAM_BOT_TOKEN не найден в .env")
 
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher()
@@ -27,6 +28,7 @@ async def main():
     dp.include_router(projects_router)
     dp.include_router(update_router)
     dp.include_router(report_router)
+    dp.include_router(help_router)
 
     print("🤖 Бот запущен...")
     await dp.start_polling(bot)

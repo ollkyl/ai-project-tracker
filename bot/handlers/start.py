@@ -10,7 +10,9 @@ router = Router()
 @router.message(CommandStart())
 async def cmd_start(message: Message):
     await message.answer(
-        "Добро пожаловть! Введите своё имя и email через пробел (например: Иван ivan@mail.com)"
+        "Добро пожаловть! "
+        "Гайд по команде: /help\n\n"
+        "Введите своё имя и email через пробел (например: Иван ivan@mail.com)"
     )
 
 
