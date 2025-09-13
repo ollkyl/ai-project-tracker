@@ -19,19 +19,17 @@ ai-project-tracker/
 ## Запуск через Docker 
 
 Настройка
-Создайте файл .env в директории /backend и /bot.
-
+Создайте файлы .env в директории /backend и /bot.
 Получите токен для Telegram-бота у @BotFather.
-
 Получите ключ для Google Gemini API в Google AI Studio.
 
 Заполните .env следующими переменными:
 
-DATABASE_URL=postgresql+psycopg://postgres:737372@localhost:5432/trackerdb
+DATABASE_URL=postgresql+psycopg://postgres:1234@db:5432/trackerdb
 TELEGRAM_BOT_TOKEN=ВАШ_ТОКЕН_БОТА
 GEMINI_API_KEY=ВАШ_КЛЮЧ_GEMINI_API
-GEMINI_API_URL=[https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent](https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent)
-BACKEND_URL=[http://127.0.0.1:8000](http://127.0.0.1:8000)
+GEMINI_API_URL=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+BACKEND_URL=http://127.0.0.1:8000
 
 
 ---
