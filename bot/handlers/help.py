@@ -6,7 +6,6 @@ router = Router()
 
 @router.message(Command("help"))
 async def help_command(message: types.Message):
-    print("✅ HELP COMMAND TRIGGERED!")  # ← Добавьте эту строку
     help_text = """
 🤖 <b>AI Project Tracker - Полная инструкция</b>
 

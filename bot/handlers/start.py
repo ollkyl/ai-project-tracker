@@ -29,17 +29,8 @@ async def get_user_by_telegram_id(telegram_id: int):
 async def cmd_start(message: Message):
     await message.answer(
         "Добро пожаловать! "
-        "Гайд по команде: /help\n\n"
+        "Гайд по командам: /help\n\n"
         "Введите своё имя и email через пробел (например: Иван ivan@mail.com)"
-    )
-
-
-@router.message(Command(commands=["help"]))
-async def cmd_help(message: Message):
-    await message.answer(
-        "Гайд по использованию:\n"
-        "- Чтобы зарегистрироваться, введите имя и email через пробел, например: Иван ivan@mail.com\n"
-        "- Используйте /start чтобы увидеть приветствие снова"
     )
 
 

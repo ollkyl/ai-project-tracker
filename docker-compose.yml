@@ -43,8 +43,7 @@ services:
     volumes:
       - ./bot:/app
     environment:
-      - BACKEND_URL=http://backend:8000
-      - BOT_TOKEN=${BOT_TOKEN}
+      - BACKEND_URL_FOR_BOT=http://backend:8000
     depends_on:
       - backend
     networks:

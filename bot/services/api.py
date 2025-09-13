@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import logging
 
 load_dotenv()
-BASE_URL = os.getenv("BACKEND_URL", "http://backend:8000")
+BASE_URL = os.getenv("BACKEND_URL_FOR_BOT")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 

@@ -1,8 +1,6 @@
 # AI Project Tracker
 
-MVP-продукт для трекинга AI-проектов: Telegram-бот, веб-панель администратора и интеграция с AI (Google Gemini).
-
----
+MVP-продукт для трекинга AI-проектов: Telegram-бот, веб-панель администратора и интеграция с AI [(Google Gemini)](https://aistudio.google.com/apikey).
 
 ## Структура проекта
 
@@ -11,71 +9,71 @@ ai-project-tracker/
 ├── backend/      # FastAPI backend
 ├── bot/          # Telegram-бот (aiogram)
 ├── web/          # Веб-панель (Next.js/React)
-
 ```
 
----
+## Настройка окружения
 
-## Запуск через Docker 
-
-Настройка
-Создайте файлы .env в директории /backend и /bot.
-Получите токен для Telegram-бота у @BotFather.
-Получите ключ для Google Gemini API в Google AI Studio.
-
-Заполните .env следующими переменными:
-
+(`backend/.env`)(`bot/.env`)
+```
 DATABASE_URL=postgresql+psycopg://postgres:1234@db:5432/trackerdb
 TELEGRAM_BOT_TOKEN=ВАШ_ТОКЕН_БОТА
 GEMINI_API_KEY=ВАШ_КЛЮЧ_GEMINI_API
 GEMINI_API_URL=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+LOG_LEVEL=INFO
 BACKEND_URL=http://127.0.0.1:8000
+BACKEND_URL_FOR_BOT=http://backend:8000
+
+```
 
 
----
 
-### 3. `web/my-admin-panel/.env.local`
-
-**Путь:**  
-`ai-project-tracker/web/my-admin-panel/.env.local`
-
-**Пример содержимого:**
+### Web (`web/my-admin-panel/.env.local`)
 ```
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
+## Запуск с Docker Compose
 
-## Основные команды Telegram-бота
+```
+docker-compose up --build
+```
 
-- `/start` — регистрация пользователя (имя + email)
-- `/idea [ваша идея]` — создать проект
-- `/projects` — список идей/проектов пользователя
-- `/update [номер проекта] [номер задачи]` — отметить задачу как выполненную
-- `/report [номер проекта]` — отчёт по проекту (AI-анализ)
+После запуска:
+- Frontend: http://localhost:3000/
+
+
+Возможности:
+- CRUD пользователей, проектов и задач
+- Отметка выполнения задач
+- AI-Review проектов
+
+## Telegram-бот
+
+- `/start` — регистрация (имя + email)
+- `/idea [идея]` — создать проект (roadmap от AI)
+- `/projects` — список проектов
+- `/update [проект] [задача]` — обновить статус задачи
+- `/report [проект]` — отчёт (AI-анализ)
 - `/help` — инструкция
 
----
+## Планировщик задач
 
-## Веб-панель
-
-- Таблица пользователей и их проектов
-- Возможность отмечать задачи как выполненные
-- Кнопка «AI Review» — анализ прогресса проекта через AI
-
----
-
-## Примечания
-- Ежедневный отчет в /bot/handlers/scheduler.py 
-scheduler.add_job(send_status_updates, trigger="cron", hour=9, minute=0, args=[bot]) каждый день в 9 утра
-Для тестирования каждые 10 минут:
-scheduler.add_job(send_status_updates, trigger="interval", minutes=10, args=[bot]) 
-- Для работы AI-интеграции нужен валидный ключ Google Gemini API.
-- Для работы с БД используется PostgreSQL (настраивается в `.env` и `docker-compose.yml`).
+- Каждый день в 09:00:
+```
+scheduler.add_job(send_status_updates, trigger="cron", hour=9, minute=0, args=[bot])
+```
+- Для теста каждые 10 минут:
+```
+scheduler.add_job(send_status_updates, trigger="interval", minutes=10, args=[bot])
+```
 
 
-<img width="222" height="275" alt="image" src="https://github.com/user-attachments/assets/a7f09ba4-42eb-4fa5-9adc-fe8196e60044" />
-<img width="222" height="312" alt="image" src="https://github.com/user-attachments/assets/a7c85458-a2db-4824-ae45-2e05425b9d50" />
-<img width="217" height="303" alt="image" src="https://github.com/user-attachments/assets/ff0eb79a-5ddc-46ac-80e7-2720e61c01a3" />
-<img width="629" height="281" alt="image" src="https://github.com/user-attachments/assets/d250ac4f-19e2-44d0-a49f-46816451e023" />
-<img width="629" height="281" alt="image" src="https://github.com/user-attachments/assets/be19627f-25f0-4ba1-9bb1-85dd73c8f7c0" />
-<img width="625" height="280" alt="image" src="https://github.com/user-attachments/assets/0e2b7757-de89-4373-9c99-633dc50b860d" />
+
+
+<img width="222" height="275" alt="image" src="https://github.com/user-attachments/assets/87bc6807-f30e-40fe-b3cd-62dc3cce4110" />
+<img width="222" height="312" alt="image" src="https://github.com/user-attachments/assets/c55da80d-1db3-4ce8-b412-8db7c06f5e11" />
+<img width="217" height="303" alt="image" src="https://github.com/user-attachments/assets/4ccf9929-1107-47dd-8a44-c18ef0a8a07b" />
+<img width="629" height="281" alt="image" src="https://github.com/user-attachments/assets/bdc9f510-471f-4c01-9528-7fb385b8fac0" />
+<img width="629" height="281" alt="image" src="https://github.com/user-attachments/assets/d6172190-71b3-4def-8352-d6fb89520393" />
+<img width="625" height="280" alt="image" src="https://github.com/user-attachments/assets/f9c14f2a-1384-4806-8903-23cbb4fce122" />
+
