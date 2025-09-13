@@ -48,6 +48,6 @@ async def send_status_updates(bot: Bot):
 
 def setup_scheduler(bot: Bot):
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
-    scheduler.add_job(send_status_updates, trigger="interval", hours=24, args=[bot])
+    scheduler.add_job(send_status_updates, trigger="cron", hour=9, minute=0, args=[bot])
     scheduler.start()
     logger.info("Scheduler started")

@@ -67,10 +67,13 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 ---
 
 ## Примечания
-
+- Ежедневный отчет в /bot/handlers/scheduler.py 
+scheduler.add_job(send_status_updates, trigger="cron", hour=9, minute=0, args=[bot]) каждый день в 9 утра
+Для тестирования каждые 10 минут:
+scheduler.add_job(send_status_updates, trigger="interval", minutes=10, args=[bot]) 
 - Для работы AI-интеграции нужен валидный ключ Google Gemini API.
 - Для работы с БД используется PostgreSQL (настраивается в `.env` и `docker-compose.yml`).
-- Все переменные окружения должны быть корректно заполнены.
+
 
 <img width="222" height="275" alt="image" src="https://github.com/user-attachments/assets/a7f09ba4-42eb-4fa5-9adc-fe8196e60044" />
 <img width="222" height="312" alt="image" src="https://github.com/user-attachments/assets/a7c85458-a2db-4824-ae45-2e05425b9d50" />
