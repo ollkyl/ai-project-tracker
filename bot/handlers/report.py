@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.filters import Command
 import httpx
 import logging
-from bot.services.api import get_projects  # Импортируем get_projects для получения списка проектов
+from services.api import get_projects
 
 router = Router()
 logger = logging.getLogger(__name__)
@@ -39,7 +39,7 @@ async def report_command(message: types.Message):
 
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"http://127.0.0.1:8000/report/{project_id}?user_id={message.from_user.id}"
+                f"http://backend:8000/report/{project_id}?user_id={message.from_user.id}"
             )
 
             if response.status_code == 200:

@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import cast
 from sqlalchemy.sql.sqltypes import BigInteger
-from backend.app.db import models
-from backend.app.db.session import get_db
-from backend.app.core.config import settings
+from app.db import models
+from app.db.session import get_db
+from app.core.config import settings
 import httpx
 import logging
 

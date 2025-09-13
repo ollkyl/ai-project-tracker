@@ -1,51 +1,73 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: trackerdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+    command: sh -c "python -m app.db.create_tables && python run_backend.py"
     volumes:
       - ./backend:/app
+    ports:
+      - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://user:password@db:5432/ai_project_tracker
+      - DATABASE_URL=postgresql+psycopg://postgres:1234@db:5432/trackerdb
+
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
 
   bot:
     build:
       context: ./bot
       dockerfile: Dockerfile
+    command: python run_bot.py
     volumes:
       - ./bot:/app
     environment:
-      - BOT_TOKEN=your_bot_token_here
+      - BACKEND_URL=http://backend:8000
+      - BOT_TOKEN=${BOT_TOKEN}
     depends_on:
       - backend
+    networks:
+      - app-network
 
   web:
     build:
-      context: ./web
+      context: ./web/my-admin-panel
       dockerfile: Dockerfile
+    volumes:
+      - ./web/my-admin-panel:/app
     ports:
       - "3000:3000"
-    volumes:
-      - ./web:/app
+    environment:
+      - NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
     depends_on:
       - backend
+    networks:
+      - app-network
 
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: ai_project_tracker
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   postgres_data:

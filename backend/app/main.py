@@ -1,10 +1,13 @@
 from fastapi import FastAPI
-from backend.app.core.config import settings
-from backend.app.db.session import engine, Base, init_db
-from backend.app.api import users, projects, tasks, ideas, reports
+from app.core.config import settings
+from app.db.session import engine, Base
+from app.api import users, projects, tasks, ideas, reports
 from fastapi.middleware.cors import CORSMiddleware
 
-init_db()
+# This file has been updated. The database initialization logic has been
+# removed from here and moved to a separate script to be executed by Docker Compose.
+# This avoids a race condition and ensures the database tables exist before the
+# application starts.
 
 app = FastAPI(title="AI Project Tracker")
 
@@ -27,4 +30,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-Base.metadata.create_all(bind=engine)

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from backend.app.db import models
-from backend.app.db.session import get_db
-from backend.app.schemas.user import UserCreate, UserOut
+from app.db import models
+from app.db.session import get_db
+from app.schemas.user import UserCreate, UserOut
 import logging
 
 logging.basicConfig(level=logging.INFO)

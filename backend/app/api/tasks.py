@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from backend.app.db import models
-from backend.app.db.session import get_db
-from backend.app.schemas.task import TaskUpdate, TaskOut
+from app.db import models
+from app.db.session import get_db
+from app.schemas.task import TaskUpdate, TaskOut
 import logging
 
 router = APIRouter()

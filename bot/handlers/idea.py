@@ -18,7 +18,7 @@ async def idea_command(message: types.Message):
         logger.info(f"Sending idea: {idea_text}, user_id={message.from_user.id}")
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://127.0.0.1:8000/ideas/",
+                "http://backend:8000/ideas/",
                 params={"text": idea_text, "user_id": message.from_user.id},
             )
 

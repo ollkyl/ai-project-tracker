@@ -3,13 +3,13 @@ import os
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.client.default import DefaultBotProperties
-from bot.handlers.start import router as start_router
-from bot.handlers.idea import router as idea_router
-from bot.handlers.projects import router as projects_router
-from bot.handlers.update import router as update_router
-from bot.handlers.report import router as report_router
-from bot.handlers.help import router as help_router
-from bot.handlers.scheduler import setup_scheduler
+from handlers.start import router as start_router
+from handlers.idea import router as idea_router
+from handlers.projects import router as projects_router
+from handlers.update import router as update_router
+from handlers.report import router as report_router
+from handlers.help import router as help_router
+from handlers.scheduler import setup_scheduler
 from dotenv import load_dotenv
 
 load_dotenv()

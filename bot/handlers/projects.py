@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
-from bot.services.api import get_projects
+from services.api import get_projects
 
 router = Router()
 

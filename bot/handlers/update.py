@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.filters import Command
 import httpx
 import logging
-from bot.services.api import get_projects  # Импортируем get_projects
+from services.api import get_projects  # Импортируем get_projects
 
 router = Router()
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ async def update_command(message: types.Message):
         async with httpx.AsyncClient() as client:
             # Получаем проект
             project_response = await client.get(
-                f"http://127.0.0.1:8000/projects/{project_id}?user_id={message.from_user.id}"
+                f"http://backend:8000/projects/{project_id}?user_id={message.from_user.id}"
             )
 
             if project_response.status_code != 200:
@@ -61,7 +61,7 @@ async def update_command(message: types.Message):
 
             # Обновляем задачу - меняем статус на "done"
             update_response = await client.patch(
-                f"http://127.0.0.1:8000/tasks/{task['id']}", json={"status": "done"}
+                f"http://backend:8000/tasks/{task['id']}", json={"status": "done"}
             )
 
             if update_response.status_code == 200:

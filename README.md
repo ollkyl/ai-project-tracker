@@ -1,56 +1,80 @@
 # AI Project Tracker
 
-AI Project Tracker is a comprehensive solution for managing AI projects with a Telegram bot interface, web dashboard, and backend API.
+MVP-продукт для трекинга AI-проектов: Telegram-бот, веб-панель администратора и интеграция с AI (Google Gemini).
 
-## Project Structure
+---
+
+## Структура проекта
 
 ```
 ai-project-tracker/
-├── backend/                # FastAPI + SQLAlchemy
-│   ├── app/
-│   │   ├── api/            # API routes
-│   │   ├── core/           # Configuration and logging
-│   │   ├── db/             # Database models and session
-│   │   ├── services/       # AI integration and business logic
-│   │   ├── schemas/        # Pydantic schemas
-│   │   └── main.py         # Application entry point
-│   ├── alembic/            # Database migrations
-│   └── requirements.txt    
-│
-├── bot/                    # Telegram bot
-│   ├── handlers/           # Command handlers (/start, /idea, /projects, /update, /report)
-│   ├── services/           # Backend and AI service calls
-│   └── bot.py              # Bot startup script
-│
-├── web/                    # Next.js application
-│   ├── app/                # Pages
-│   ├── components/         # UI components
-│   └── package.json        
-│
-├── docker-compose.yml      # Orchestration
-└── README.md               # This file
+├── backend/      # FastAPI backend
+├── bot/          # Telegram-бот (aiogram)
+├── web/          # Веб-панель (Next.js/React)
+
 ```
 
-## Getting Started
+---
 
-1. Clone the repository
-2. Install dependencies for each component:
-   - Backend: `pip install -r backend/requirements.txt`
-   - Web: `cd web && npm install`
-3. Configure environment variables
-4. Run with Docker: `docker-compose up`
+## Запуск через Docker 
 
-## Components
+Настройка
+Создайте файл .env в директории /backend и /bot.
 
-### Backend (FastAPI + SQLAlchemy)
-REST API for managing projects, ideas, and reports.
+Получите токен для Telegram-бота у @BotFather.
 
-### Bot (Telegram)
-Telegram bot interface for interacting with the system.
+Получите ключ для Google Gemini API в Google AI Studio.
 
-### Web (Next.js)
-Web dashboard for visualizing project data.
+Заполните .env следующими переменными:
 
-## Deployment
+DATABASE_URL=postgresql+psycopg://postgres:737372@localhost:5432/trackerdb
+TELEGRAM_BOT_TOKEN=ВАШ_ТОКЕН_БОТА
+GEMINI_API_KEY=ВАШ_КЛЮЧ_GEMINI_API
+GEMINI_API_URL=[https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent](https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent)
+BACKEND_URL=[http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-Use the provided `docker-compose.yml` for easy deployment.
+
+---
+
+### 3. `web/my-admin-panel/.env.local`
+
+**Путь:**  
+`ai-project-tracker/web/my-admin-panel/.env.local`
+
+**Пример содержимого:**
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+
+## Основные команды Telegram-бота
+
+- `/start` — регистрация пользователя (имя + email)
+- `/idea [ваша идея]` — создать проект
+- `/projects` — список идей/проектов пользователя
+- `/update [номер проекта] [номер задачи]` — отметить задачу как выполненную
+- `/report [номер проекта]` — отчёт по проекту (AI-анализ)
+- `/help` — инструкция
+
+---
+
+## Веб-панель
+
+- Таблица пользователей и их проектов
+- Возможность отмечать задачи как выполненные
+- Кнопка «AI Review» — анализ прогресса проекта через AI
+
+---
+
+## Примечания
+
+- Для работы AI-интеграции нужен валидный ключ Google Gemini API.
+- Для работы с БД используется PostgreSQL (настраивается в `.env` и `docker-compose.yml`).
+- Все переменные окружения должны быть корректно заполнены.
+
+<img width="222" height="275" alt="image" src="https://github.com/user-attachments/assets/a7f09ba4-42eb-4fa5-9adc-fe8196e60044" />
+<img width="222" height="312" alt="image" src="https://github.com/user-attachments/assets/a7c85458-a2db-4824-ae45-2e05425b9d50" />
+<img width="217" height="303" alt="image" src="https://github.com/user-attachments/assets/ff0eb79a-5ddc-46ac-80e7-2720e61c01a3" />
+<img width="629" height="281" alt="image" src="https://github.com/user-attachments/assets/d250ac4f-19e2-44d0-a49f-46816451e023" />
+<img width="629" height="281" alt="image" src="https://github.com/user-attachments/assets/be19627f-25f0-4ba1-9bb1-85dd73c8f7c0" />
+<img width="625" height="280" alt="image" src="https://github.com/user-attachments/assets/0e2b7757-de89-4373-9c99-633dc50b860d" />

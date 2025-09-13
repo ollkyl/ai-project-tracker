@@ -1,0 +1,11 @@
+
+alembic
+pydantic
+pydantic-settings
+python-telegram-bot
+httpx
+
+redis
+pydantic[email]
+aiogram==3.*
+apscheduler==3.10.4

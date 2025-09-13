@@ -1,0 +1,51 @@
+# Python-специфичные файлы и кэши
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Локальные конфигурации и чувствительные данные
+.env
+*.env
+secrets/
+credentials.json
+*.key
+*.pem
+
+# Логи и временные файлы
+*.log
+logs/
+*.tmp
+temp/
+
+# Локальные директории разработки
+.venv/
+venv/
+env/
+.virtualenv/
+*.swp
+*.swo
+
+# Редакторы и IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Тесты и документация
+tests/
+test_*.py
+docs/
+*.md
+*.rst
+
+# Docker и CI/CD
+Dockerfile
+.dockerignore
+.git
+.gitignore
+.github
