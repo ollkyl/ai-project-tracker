@@ -8,7 +8,7 @@ MVP-продукт для трекинга AI-проектов: Telegram-бот,
 ai-project-tracker/
 ├── backend/      # FastAPI backend
 ├── bot/          # Telegram-бот (aiogram)
-├── web/          # Веб-панель (Next.js/React)
+├── web/          # Веб-панель (Next.js)
 ```
 
 ## Настройка окружения
